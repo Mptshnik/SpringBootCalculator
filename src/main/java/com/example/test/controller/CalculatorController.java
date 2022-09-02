@@ -18,14 +18,37 @@ public class CalculatorController
         return "calculator";
     }
 
-    @PostMapping("/calculate")
-    public String calculate(@RequestParam(value = "number1", defaultValue = "0", required = true) int a,
+    @GetMapping("/calculate")
+    public String getCalculate(@RequestParam(value = "number1", defaultValue = "0", required = true) int a,
                             @RequestParam(value = "number2", defaultValue = "0", required = true) int b,
                             HttpServletRequest request,
                             Model model)
     {
-        int answer = 0;
         String action = request.getParameter("actions");
+
+        model.addAttribute("answer", calculate(action, a, b));
+
+        return "calculator";
+    }
+
+
+    @PostMapping("/calculate")
+    public String postCalculate(@RequestParam(value = "number1", defaultValue = "0", required = true) int a,
+                            @RequestParam(value = "number2", defaultValue = "0", required = true) int b,
+                            HttpServletRequest request,
+                            Model model)
+    {
+        String action = request.getParameter("actions");
+
+        model.addAttribute("answer", calculate(action, a, b));
+
+        return "calculator";
+    }
+
+    private int calculate(String action, int a, int b)
+    {
+        int answer = 0;
+
         switch (action)
         {
             case "*":
@@ -42,8 +65,7 @@ public class CalculatorController
                 answer = a + b;
                 break;
         }
-        model.addAttribute("answer", answer);
 
-        return "calculator";
+        return answer;
     }
 }

@@ -6,8 +6,30 @@
 </head>
 <body>
   <h1>Калькулятор</h1>
+  <select id="select_method" onchange="selectMethod(this)">
+      <option value="get">GET</option>
+      <option value="post">POST</option>
+  </select>
+  <br>
+  <br>
+  <script>
+      function selectMethod(selectObject) {
+          var value = selectObject.value;
+          var form = document.getElementById("calc_form");
+          if(value === "get")
+          {
+             form.setAttribute("method", "get");
+           //  form.setAttribute("action", "getcalculate");
+          }
+          else
+          {
+              form.setAttribute("method", "post");
+              //form.setAttribute("action", "postcalculate");
+          }
+      }
+  </script>
 
-  <form method="post" action="/calculate">
+  <form method="get" action="/calculate" id="calc_form">
       <div>
           <input type="text" name="number1">
           <select name="actions">
@@ -20,8 +42,6 @@
           <button type="submit">=</button>
           <div style="display: inline-block" th:text="${answer}"></div>
       </div>
-
-
   </form>
 </body>
 </html>
